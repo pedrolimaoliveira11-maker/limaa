@@ -1,1 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Minecraft 2D Completo</title>
+  <style>
+    body {
+      background-color: #87CEEB;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #game {
+      position: relative;
+      width: 800px;
+      height: 500px;
+      margin: 20px auto;
+      background-color: #a3d9a5;
+      border: 2px solid #333;
+      overflow: hidden;
+    }
+    .block {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #000;
+    }
+    .stone { background-color: #555; }
+    .grass { background-color: #228B22; }
+    .wood { background-color: #8B4513; }
+    #player {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      bottom: 40px;
+      left: 100px;
+    }
+    .enemy {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: purple;
+    }
+    #inventory {
+      margin: 10px;
+    }
+    .item {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 2px solid #000;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .selected {
+      border: 3px solid yellow;
+    }
+    #healthBar {
+      width: 200px;
+      height: 20px;
+      border: 2px solid #000;
+      margin: 10px auto;
+      background-color: #ccc;
+      position: relative;
+    }
+    #health {
+      width: 100%;
+      height: 100%;
+      background-color: green;
+    }
+    #hud {
+      margin: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mini Minecraft 2D Completo</h1>
+  <p>Setas para mover, espaço para pular, clique para colocar blocos, E para quebrar blocos!</p>
+  
+  <div id="healthBar"><div id="health"></div></div>
+  <div id="hud">Pontuação: <span id="score">0</span> | Nível: <span id="level">1</span></div>
+  
+  <div id="inventory">
+    <div class="item grass selected" data-type="grass"></div>
+    <div class="item stone" data-type="stone"></div>
+    <div class="item wood" data-type="wood"></div>
+  </div>
+  
+  <div id="game">
+    <div id="player"></div>
+  </div>
 
+  <audio id="hitSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="breakSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_break.ogg"></audio>
+  <audio id="bgMusic" src="https://actions.google.com/sounds/v1/ambiences/forest_ambience.ogg" loop></audio>
+
+  <script>
+    const game = document.getElementById("game");
+    const player = document.getElementById("player");
+    const inventoryItems = document.querySelectorAll(".item");
+    const healthBar = document.getElementById("health");
+    const scoreDisplay = document.getElementById("score");
+    const levelDisplay = document.getElementById("level");
+    const hitSound = document.getElementById("hitSound");
+    const breakSound = document.getElementById("breakSound");
+    const bgMusic = document.getElementById("bgMusic");
+
+    let playerX = 100;
+    let playerY = 430;
+    let velocityY = 0;
+    let gravity = 2;
+    let isJumping = false;
+    let moveLeft = false;
+    let moveRight = false;
+    let selectedBlock = "grass";
+    let health = 100;
+    let score = 0;
+    let level = 1;
+
+    bgMusic.play();
+
+    // Inventário
+    inventoryItems.forEach(item => {
+      item.addEventListener("click", () => {
+        inventoryItems.forEach(i => i.classList.remove("selected"));
+        item.classList.add("selected");
+        selectedBlock = item.dataset.type;
+      });
+    });
+
+    // Movimento
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") moveRight = true;
+      if (e.key === "ArrowLeft") moveLeft = true;
+      if (e.key === " " && !isJumping) {
+        velocityY = -20;
+        isJumping = true;
+      }
+      if (e.key === "e" || e.key === "E") {
+        breakBlock();
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowRight") moveRight = false;
+      if (e.key === "ArrowLeft") moveLeft = false;
+    });
+
+    function updatePlayer() {
+      player.style.left = playerX + "px";
+      player.style.top = playerY + "px";
+    }
+
+    function checkCollision() {
+      const blocks = document.querySelectorAll(".block");
+      const playerRect = player.getBoundingClientRect();
+
+      blocks.forEach(block => {
+        const blockRect = block.getBoundingClientRect();
+
+        // colisão vertical
+        if (
+          playerRect.bottom >= blockRect.top &&
+          playerRect.top < blockRect.top &&
+          playerRect.right > blockRect.left &&
+          playerRect.left < blockRect.right
+        ) {
+          playerY = block.offsetTop - player.offsetHeight;
+          velocityY = 0;
+          isJumping = false;
+        }
+
+        // colisão lateral esquerda
+        if (
+          playerRect.left <= blockRect.right &&
+          playerRect.right > blockRect.right &&
+          playerRect.bottom > blockRect.top &&
+          playerRect.top < blockRect.bottom
+        ) {
+          playerX = block.offsetLeft + block.offsetWidth;
+        }
+
+        // colisão lateral direita
+        if (
+          playerRect.right >= blockRect.left &&
+          playerRect.left < blockRect.left &&
+          playerRect.bottom > blockRect.top &&
+          playerRect.top < blockRect.bottom
+        ) {
+          playerX = block.offsetLeft - player.offsetWidth;
+        }
+      });
+    }
+
+    function breakBlock() {
+      const blocks = document.querySelectorAll(".block");
+      const playerRect = player.getBoundingClientRect();
+
+      blocks.forEach(block => {
+        const blockRect = block.getBoundingClientRect();
+        if (
+          playerRect.right > blockRect.left &&
+          playerRect.left < blockRect.right &&
+          playerRect.bottom > blockRect.top &&
+          playerRect.top < blockRect.bottom
+        ) {
+          breakSound.play();
+          score += 10;
+          scoreDisplay.textContent = score;
+          if (score % 50 === 0) {
+            level++;
+            levelDisplay.textContent = level;
+          }
+          block.remove();
+        }
+      });
+    }
+
+    function damagePlayer(amount) {
+      health -= amount;
+      if (health < 0) health = 0;
+      healthBar.style.width = health * 2 + "px";
+      hitSound.play();
+      if (health === 0) {
+        alert("Game Over! Respawnando...");
+        respawn();
+      }
+    }
+
+    function checkEnemyCollision() {
+      const enemies = document.querySelectorAll(".enemy");
+      const playerRect = player.getBoundingClientRect();
+
+      enemies.forEach(enemy => {
+        const enemyRect = enemy.getBoundingClientRect();
+        if (
+          playerRect.right > enemyRect.left &&
+          playerRect.left < enemyRect.right &&
+          playerRect.bottom > enemyRect.top &&
+          playerRect.top < enemyRect.bottom
+        ) {
+          damagePlayer(10);
+        }
+      });
+    }
+
+    function respawn() {
+      health = 100;
+      healthBar.style.width = "200px";
+      playerX = 100;
+      playerY = 430;
+      score = 0;
+      level = 1;
+      scoreDisplay.textContent = score;
+      levelDisplay.textContent = level;
+    }
+
+    function gameLoop() {
+      if (moveRight) playerX += 5;
+      if (moveLeft) playerX -= 5;
+
+      velocityY += gravity;
+      playerY += velocityY;
+
+      if (playerY >= 430) {
+        playerY = 430;
+        velocityY = 0;
+        isJumping = false;
+      }
+
+      checkCollision();
+      checkEnemyCollision();
+      updatePlayer();
+      moveEnemies();
+      requestAnimationFrame(gameLoop);
+    }
+    gameLoop();
+
+    // Criar blocos com clique
+    game.addEventListener("click", (e) => {
+      const block = document.createElement("div");
+      block.classList.add("block", selectedBlock);
+
+      const rect = game.getBoundingClientRect();
+      block.style.left = Math.floor((e.clientX - rect.left
