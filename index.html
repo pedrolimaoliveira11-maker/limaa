@@ -1,189 +1,228 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini Minecraft 2D</title>
-  <style>
-    body { background-color:#87CEEB; font-family:Arial; text-align:center; }
-    #game {
-      position:relative; width:800px; height:500px;
-      margin:20px auto; background-color:#a3d9a5;
-      border:2px solid #333; overflow:hidden;
-    }
-    .block {
-      position:absolute; width:40px; height:40px;
-      border:1px solid #000; background-size:cover;
-    }
-    .stone { background-image:url("sprites/stone.png"); }
-    .grass { background-image:url("sprites/grass.png"); }
-    .wood { background-image:url("sprites/wood.png"); }
-    #player {
-      position:absolute; width:30px; height:30px;
-      background-image:url("sprites/player.png");
-      background-size:cover; bottom:40px; left:100px;
-    }
-    .enemy {
-      position:absolute; width:30px; height:30px;
-      background-image:url("sprites/enemy.png");
-      background-size:cover;
-    }
-    #inventory { margin:10px; }
-    .item {
-      display:inline-block; width:40px; height:40px;
-      border:2px solid #000; margin:5px; cursor:pointer;
-      background-size:cover;
-    }
-    .item[data-type="grass"] { background-image:url("sprites/grass.png"); }
-    .item[data-type="stone"] { background-image:url("sprites/stone.png"); }
-    .item[data-type="wood"] { background-image:url("sprites/wood.png"); }
-    .selected { border:3px solid yellow; }
-    #healthBar {
-      width:200px; height:20px; border:2px solid #000;
-      margin:10px auto; background-color:#ccc;
-    }
-    #health { width:100%; height:100%; background-color:green; }
-    #hud { margin:10px; font-size:18px; }
-    #crafting {
-      margin:10px; padding:10px; border:2px solid #000;
-      display:none; background-color:#eee;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Estobogas</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #eee;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            background-color: #000;
+            display: block;
+            margin: auto;
+        }
+        #menu {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>Mini Minecraft 2D</h1>
-  <p>Setas = mover | Espaço = pular | Clique = bloco | E = quebrar | C = crafting</p>
-  
-  <div id="healthBar"><div id="health"></div></div>
-  <div id="hud">Pontuação: <span id="score">0</span> | Nível: <span id="level">1</span></div>
-  
-  <div id="inventory">
-    <div class="item grass selected" data-type="grass"></div>
-    <div class="item stone" data-type="stone"></div>
-    <div class="item wood" data-type="wood"></div>
-  </div>
-  
-  <div id="crafting">
-    <h3>Crafting</h3>
-    <p>2 madeiras → 1 tábua</p>
-    <p>2 pedras → 1 tijolo</p>
-  </div>
-  
-  <div id="game"><div id="player"></div></div>
+    <h1>🚀 Estobogas 🚀</h1>
+    <div id="menu">
+        <button onclick="startGame()">Start</button>
+        <button onclick="showInstructions()">Instruções</button>
+        <button onclick="showRanking()">Ranking</button>
+        <div id="info"></div>
+    </div>
+    <canvas id="gameCanvas" width="600" height="400" style="display:none;"></canvas>
 
-  <audio id="hitSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-  <audio id="breakSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_break.ogg"></audio>
-  <audio id="bgMusic" src="https://actions.google.com/sounds/v1/ambiences/forest_ambience.ogg" loop></audio>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
 
-  <script>
-    const game=document.getElementById("game"),player=document.getElementById("player"),
-          inventoryItems=document.querySelectorAll(".item"),
-          healthBar=document.getElementById("health"),
-          scoreDisplay=document.getElementById("score"),
-          levelDisplay=document.getElementById("level"),
-          hitSound=document.getElementById("hitSound"),
-          breakSound=document.getElementById("breakSound"),
-          bgMusic=document.getElementById("bgMusic"),
-          craftingMenu=document.getElementById("crafting");
+        let nave, tiros, inimigos, explosoes, powerups;
+        let pontos, vidas, nivel;
+        let tiroDuplo, escudo;
+        let velocidadeInimigo, intervaloInimigos, spawnLoop;
+        let melhorPontuacao = 0;
 
-    let playerX=100,playerY=430,velocityY=0,gravity=2,isJumping=false,
-        moveLeft=false,moveRight=false,selectedBlock="grass",
-        health=100,score=0,level=1;
+        // Sons
+        const somTiro = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+        const somExplosao = new Audio("https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg");
+        const somGameOver = new Audio("https://actions.google.com/sounds/v1/cartoon/cartoon_cowbell.ogg");
+        const somPowerup = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
 
-    bgMusic.play();
-
-    inventoryItems.forEach(item=>{
-      item.addEventListener("click",()=>{
-        inventoryItems.forEach(i=>i.classList.remove("selected"));
-        item.classList.add("selected");
-        selectedBlock=item.dataset.type;
-      });
-    });
-
-    document.addEventListener("keydown",e=>{
-      if(e.key==="ArrowRight") moveRight=true;
-      if(e.key==="ArrowLeft") moveLeft=true;
-      if(e.key===" "&&!isJumping){velocityY=-20;isJumping=true;}
-      if(e.key==="e"||e.key==="E") breakBlock();
-      if(e.key==="c"||e.key==="C") craftingMenu.style.display=
-        craftingMenu.style.display==="none"?"block":"none";
-    });
-    document.addEventListener("keyup",e=>{
-      if(e.key==="ArrowRight") moveRight=false;
-      if(e.key==="ArrowLeft") moveLeft=false;
-    });
-
-    function updatePlayer(){player.style.left=playerX+"px";player.style.top=playerY+"px";}
-
-    function checkCollision(){
-      const blocks=document.querySelectorAll(".block"),playerRect=player.getBoundingClientRect();
-      blocks.forEach(block=>{
-        const blockRect=block.getBoundingClientRect();
-        if(playerRect.bottom>=blockRect.top&&playerRect.top<blockRect.top&&
-           playerRect.right>blockRect.left&&playerRect.left<blockRect.right){
-          playerY=block.offsetTop-player.offsetHeight;velocityY=0;isJumping=false;
+        function resetGame() {
+            nave = { x: 300, y: 350, width: 40, height: 20 };
+            tiros = [];
+            inimigos = [];
+            explosoes = [];
+            powerups = [];
+            pontos = 0;
+            vidas = 3;
+            nivel = 1;
+            tiroDuplo = false;
+            escudo = false;
+            velocidadeInimigo = 2;
+            intervaloInimigos = 2000;
         }
-        if(playerRect.left<=blockRect.right&&playerRect.right>blockRect.right&&
-           playerRect.bottom>blockRect.top&&playerRect.top<blockRect.bottom){
-          playerX=block.offsetLeft+block.offsetWidth;
+
+        function startGame() {
+            document.getElementById("menu").style.display = "none";
+            canvas.style.display = "block";
+            resetGame();
+            spawnLoop = setInterval(criarInimigo, intervaloInimigos);
+            setInterval(criarPowerup, 10000);
+            loop();
         }
-        if(playerRect.right>=blockRect.left&&playerRect.left<blockRect.left&&
-           playerRect.bottom>blockRect.top&&playerRect.top<blockRect.bottom){
-          playerX=block.offsetLeft-player.offsetWidth;
+
+        function showInstructions() {
+            document.getElementById("info").innerHTML = `
+                <p>🎮 Controles:</p>
+                <p>← → para mover a nave</p>
+                <p>Espaço para atirar</p>
+                <p>⭐ Power-ups: Verde = Vida, Azul = Tiro Duplo, Roxo = Escudo</p>
+            `;
         }
-      });
-    }
 
-    function breakBlock(){
-      const blocks=document.querySelectorAll(".block"),playerRect=player.getBoundingClientRect();
-      blocks.forEach(block=>{
-        const blockRect=block.getBoundingClientRect();
-        if(playerRect.right>blockRect.left&&playerRect.left<blockRect.right&&
-           playerRect.bottom>blockRect.top&&playerRect.top<blockRect.bottom){
-          breakSound.play();score+=10;scoreDisplay.textContent=score;
-          if(score%50===0){level++;levelDisplay.textContent=level;}
-          block.remove();
+        function showRanking() {
+            document.getElementById("info").innerHTML = `
+                <p>🏆 Melhor pontuação: ${melhorPontuacao}</p>
+            `;
         }
-      });
-    }
 
-    function damagePlayer(amount){
-      health-=amount;if(health<0)health=0;
-      healthBar.style.width=health*2+"px";hitSound.play();
-      if(health===0){alert("Game Over! Respawnando...");respawn();}
-    }
-
-    function checkEnemyCollision(){
-      const enemies=document.querySelectorAll(".enemy"),playerRect=player.getBoundingClientRect();
-      enemies.forEach(enemy=>{
-        const enemyRect=enemy.getBoundingClientRect();
-        if(playerRect.right>enemyRect.left&&playerRect.left<enemyRect.right&&
-           playerRect.bottom>enemyRect.top&&playerRect.top<enemyRect.bottom){
-          damagePlayer(10);
+        // Criar inimigos
+        function criarInimigo() {
+            let x = Math.random() * (canvas.width - 30);
+            inimigos.push({ x: x, y: 0, width: 30, height: 20 });
         }
-      });
-    }
 
-    function respawn(){
-      health=100;healthBar.style.width="200px";
-      playerX=100;playerY=430;score=0;level=1;
-      scoreDisplay.textContent=score;levelDisplay.textContent=level;
-    }
+        // Criar power-up
+        function criarPowerup() {
+            let tipos = ["vida", "tiroDuplo", "escudo"];
+            let tipo = tipos[Math.floor(Math.random() * tipos.length)];
+            let x = Math.random() * (canvas.width - 20);
+            powerups.push({ x: x, y: 0, tipo: tipo });
+        }
 
-    function gameLoop(){
-      if(moveRight)playerX+=5;if(moveLeft)playerX-=5;
-      velocityY+=gravity;playerY+=velocityY;
-      if(playerY>=430){playerY=430;velocityY=0;isJumping=false;}
-      checkCollision();checkEnemyCollision();updatePlayer();moveEnemies();
-      requestAnimationFrame(gameLoop);
-    }
-    gameLoop();
+        // Desenhar nave
+        function desenharNave() {
+            ctx.fillStyle = escudo ? "cyan" : "lime";
+            ctx.fillRect(nave.x, nave.y, nave.width, nave.height);
+        }
 
-    game.addEventListener("click",e=>{
-      const block=document.createElement("div");block.classList.add("block",selectedBlock);
-      const rect=game.getBoundingClientRect();
-      block.style.left=Math.floor((e.clientX-rect.left)/40)*40+"px";
-      block.style.top=Math.floor((e.clientY-rect.top)/40)*40+"px";
-      game.appendChild(block);
-    });
+        // Desenhar tiros
+        function desenharTiros() {
+            ctx.fillStyle = "yellow";
+            tiros.forEach(t => ctx.fillRect(t.x, t.y, 5, 10));
+        }
 
-    function
+        // Desenhar inimigos
+        function desenharInimigos() {
+            ctx.fillStyle = "red";
+            inimigos.forEach(i => ctx.fillRect(i.x, i.y, i.width, i.height));
+        }
+
+        // Desenhar explosões
+        function desenharExplosoes() {
+            explosoes.forEach((e, index) => {
+                ctx.fillStyle = "orange";
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, e.raio, 0, Math.PI * 2);
+                ctx.fill();
+                e.raio += 2;
+                if (e.raio > 30) explosoes.splice(index, 1);
+            });
+        }
+
+        // Desenhar power-ups
+        function desenharPowerups() {
+            powerups.forEach(p => {
+                ctx.fillStyle = p.tipo === "vida" ? "green" : p.tipo === "tiroDuplo" ? "blue" : "purple";
+                ctx.fillRect(p.x, p.y, 20, 20);
+            });
+        }
+
+        // Atualizar posições
+        function atualizar() {
+            tiros.forEach(t => t.y -= 5);
+            inimigos.forEach(i => i.y += velocidadeInimigo);
+            powerups.forEach(p => p.y += 2);
+
+            // Colisão tiro vs inimigo
+            tiros.forEach((t, ti) => {
+                inimigos.forEach((i, ii) => {
+                    if (t.x < i.x + i.width && t.x + 5 > i.x && t.y < i.y + i.height && t.y + 10 > i.y) {
+                        inimigos.splice(ii, 1);
+                        tiros.splice(ti, 1);
+                        pontos += 10;
+                        explosoes.push({ x: i.x + i.width/2, y: i.y + i.height/2, raio: 5 });
+                        somExplosao.play();
+
+                        if (pontos % 50 === 0) {
+                            nivel++;
+                            velocidadeInimigo += 0.5;
+                            intervaloInimigos = Math.max(500, intervaloInimigos - 200);
+                            clearInterval(spawnLoop);
+                            spawnLoop = setInterval(criarInimigo, intervaloInimigos);
+                        }
+                    }
+                });
+            });
+
+            // Colisão inimigo vs nave
+            inimigos.forEach((i, ii) => {
+                if (i.y > canvas.height - 30) {
+                    inimigos.splice(ii, 1);
+                    if (escudo) escudo = false;
+                    else vidas--;
+                }
+            });
+
+            // Colisão nave vs power-up
+            powerups.forEach((p, pi) => {
+                if (nave.x < p.x + 20 && nave.x + nave.width > p.x && nave.y < p.y + 20 && nave.y + nave.height > p.y) {
+                    if (p.tipo === "vida") vidas++;
+                    if (p.tipo === "tiroDuplo") {
+                        tiroDuplo = true;
+                        setTimeout(() => tiroDuplo = false, 8000);
+                    }
+                    if (p.tipo === "escudo") escudo = true;
+                    powerups.splice(pi, 1);
+                    somPowerup.play();
+                }
+            });
+        }
+
+        // Loop do jogo
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            desenharNave();
+            desenharTiros();
+            desenharInimigos();
+            desenharExplosoes();
+            desenharPowerups();
+            atualizar();
+
+            ctx.fillStyle = "white";
+            ctx.fillText("Pontos: " + pontos, 10, 20);
+            ctx.fillText("Vidas: " + vidas, 500, 20);
+            ctx.fillText("Nível: " + nivel, 270, 20);
+
+            if (vidas > 0) {
+                requestAnimationFrame(loop);
+            } else {
+                ctx.fillStyle = "white";
+                ctx.font = "30px Arial";
+                ctx.fillText("GAME OVER!", 220, 200);
+                somGameOver.play();
+                melhorPontuacao = Math.max(melhorPontuacao, pontos);
+                setTimeout(() => {
+                    canvas.style.display = "none";
+                    document.getElementById("menu").style.display = "block";
+                }, 3000);
