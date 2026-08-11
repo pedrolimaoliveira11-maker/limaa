@@ -19,7 +19,7 @@
             padding: 20px;
         }
 
-        /* ===== TELA DE LOGIN ===== */
+        /* ===== LOGIN ===== */
         #telaLogin {
             max-width: 400px;
             margin: 80px auto;
@@ -81,7 +81,6 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
-            transition: all 0.2s;
         }
 
         .btn-login:hover {
@@ -97,7 +96,7 @@
             display: none;
         }
 
-        /* ===== SISTEMA PRINCIPAL ===== */
+        /* ===== SISTEMA ===== */
         #sistemaPrincipal {
             display: none;
             max-width: 1150px;
@@ -106,20 +105,6 @@
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 6px;
-            color: #00d9ff;
-            font-size: 2rem;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #aaa;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
         }
 
         .topo-sistema {
@@ -142,9 +127,7 @@
             font-weight: 600;
         }
 
-        .btn-sair:hover {
-            background: #ff7675;
-        }
+        .btn-sair:hover { background: #ff7675; }
 
         .info-box {
             display: flex;
@@ -160,7 +143,7 @@
 
         .info-item {
             text-align: center;
-            min-width: 140px;
+            min-width: 120px;
         }
 
         .info-item .label {
@@ -170,7 +153,7 @@
         }
 
         .info-item .value {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #00d9ff;
         }
@@ -233,11 +216,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .btn-gerar:hover {
-            background: #74b9ff;
         }
 
         .botoes-cadastro {
@@ -280,23 +258,11 @@
             color: #fff;
         }
 
-        .btn-liberar:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-limpar {
-            background: #636e72;
-            color: #fff;
-        }
+        .btn-limpar { background: #636e72; color: #fff; }
 
         .btn-cadastrar {
             background: linear-gradient(135deg, #6c5ce7, #a29bfe);
             color: #fff;
-        }
-
-        .btn-cadastrar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
         }
 
         h2 {
@@ -329,13 +295,12 @@
             font-size: 0.82rem;
         }
 
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
+        tr:hover { background: rgba(255, 255, 255, 0.03); }
 
         .vaga-ocupada { color: #ff7675; font-weight: bold; }
         .veiculo-nome { color: #74b9ff; font-weight: 500; }
         .nome-pessoa { color: #ffeaa7; font-weight: 500; }
+        .valor { color: #00b894; font-weight: bold; }
 
         .empty {
             text-align: center;
@@ -364,6 +329,78 @@
             color: #ff7675;
         }
 
+        /* ===== TICKET ===== */
+        #ticketModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ticket {
+            background: #fff;
+            color: #222;
+            width: 340px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            font-family: 'Courier New', monospace;
+        }
+
+        .ticket h2 {
+            text-align: center;
+            color: #111;
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .ticket .linha {
+            border-top: 1px dashed #999;
+            margin: 12px 0;
+        }
+
+        .ticket p {
+            margin: 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .ticket .total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            color: #00b894;
+        }
+
+        .ticket-botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .ticket-botoes button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-fechar-ticket {
+            background: #636e72;
+            color: white;
+        }
+
+        .btn-pagar {
+            background: #00b894;
+            color: white;
+        }
+
         footer {
             text-align: center;
             margin-top: 20px;
@@ -378,7 +415,7 @@
 </head>
 <body>
 
-    <!-- ==================== TELA DE LOGIN ==================== -->
+    <!-- LOGIN -->
     <div id="telaLogin">
         <h1>🅿️ Estacionamento</h1>
         <p class="subtitle">Faça login para continuar</p>
@@ -401,19 +438,19 @@
         </p>
     </div>
 
-    <!-- ==================== SISTEMA PRINCIPAL ==================== -->
+    <!-- SISTEMA PRINCIPAL -->
     <div id="sistemaPrincipal">
         <div class="topo-sistema">
             <div>
                 <h1 style="margin:0; font-size:1.7rem;">🅿️ Estacionamento Virtual</h1>
-                <p style="color:#aaa; font-size:0.85rem; margin-top:4px;">Cadastro • Entrada/Saída • 30 vagas</p>
+                <p style="color:#aaa; font-size:0.85rem; margin-top:4px;">Cadastro • Cobrança • Ticket • 30 vagas</p>
             </div>
             <button class="btn-sair" onclick="sair()">🚪 Sair</button>
         </div>
 
         <div id="alerta" class="alerta"></div>
 
-        <!-- CADASTRO DE CLIENTE -->
+        <!-- CADASTRO -->
         <div class="cadastro-box">
             <h2>📝 Cadastro de Cliente</h2>
             <div class="form-row">
@@ -462,7 +499,7 @@
             </div>
         </div>
 
-        <!-- Painel de Vagas -->
+        <!-- Painel -->
         <div class="info-box">
             <div class="info-item">
                 <div class="label">Total de Vagas</div>
@@ -472,16 +509,19 @@
                 <div class="label">Vagas Ocupadas</div>
                 <div class="value" id="ocupadas">0</div>
             </div>
+            <div class="info-item">
+                <div class="label">Total Arrecadado</div>
+                <div class="value" id="totalArrecadado">R$ 0,00</div>
+            </div>
         </div>
 
-        <!-- Botões rápidos -->
         <div class="botoes">
             <button class="btn-estacionar" onclick="estacionarAleatorio()">🎲 Estacionar Aleatório</button>
             <button class="btn-liberar" onclick="liberarUltimo()">🔓 Liberar Último</button>
             <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar Tudo</button>
         </div>
 
-        <!-- Clientes Cadastrados -->
+        <!-- Clientes -->
         <h2>👥 Clientes Cadastrados</h2>
         <table>
             <thead>
@@ -493,13 +533,11 @@
                 </tr>
             </thead>
             <tbody id="listaClientes">
-                <tr>
-                    <td colspan="4" class="empty">Nenhum cliente cadastrado</td>
-                </tr>
+                <tr><td colspan="4" class="empty">Nenhum cliente cadastrado</td></tr>
             </tbody>
         </table>
 
-        <!-- Veículos Estacionados -->
+        <!-- Estacionados -->
         <h2>🚗 Veículos Estacionados</h2>
         <table>
             <thead>
@@ -514,35 +552,37 @@
                 </tr>
             </thead>
             <tbody id="listaVeiculos">
-                <tr>
-                    <td colspan="7" class="empty">Nenhum veículo estacionado</td>
-                </tr>
+                <tr><td colspan="7" class="empty">Nenhum veículo estacionado</td></tr>
             </tbody>
         </table>
 
-        <!-- Histórico de Saídas -->
-        <h2>🚪 Histórico de Saídas</h2>
+        <!-- Tickets / Cobranças -->
+        <h2>🎫 Tickets / Cobranças</h2>
         <table>
             <thead>
                 <tr>
                     <th>Vaga</th>
                     <th>Nome</th>
                     <th>Veículo</th>
-                    <th>GR</th>
                     <th>Entrada</th>
                     <th>Saída</th>
+                    <th>Tempo</th>
+                    <th>Valor</th>
                 </tr>
             </thead>
-            <tbody id="listaSaidas">
-                <tr>
-                    <td colspan="6" class="empty">Nenhuma saída registrada</td>
-                </tr>
+            <tbody id="listaTickets">
+                <tr><td colspan="7" class="empty">Nenhum ticket gerado</td></tr>
             </tbody>
         </table>
 
-        <footer>
-            Simulação apenas • Dados fictícios
-        </footer>
+        <footer>Simulação apenas • Dados fictícios</footer>
+    </div>
+
+    <!-- MODAL DO TICKET -->
+    <div id="ticketModal">
+        <div class="ticket" id="conteudoTicket">
+            <!-- Preenchido via JS -->
+        </div>
     </div>
 
     <script>
@@ -567,16 +607,18 @@
             document.getElementById('erroLogin').style.display = 'none';
         }
 
-        // Permitir Enter no campo senha
         document.getElementById('senha').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') fazerLogin();
         });
 
         // ===== SISTEMA =====
         const TOTAL_VAGAS = 30;
+        const VALOR_HORA = 8.00; // R$ 8,00 por hora
+
         let clientes = [];
         let veiculos = [];
-        let historicoSaidas = [];
+        let tickets = [];
+        let totalArrecadado = 0;
 
         const modelos = [
             "Volkswagen Gol", "Chevrolet Onix", "Hyundai HB20", "Fiat Argo", "Volkswagen Polo",
@@ -626,6 +668,34 @@
 
         function atualizarPainel() {
             document.getElementById('ocupadas').textContent = veiculos.length;
+            document.getElementById('totalArrecadado').textContent = 'R$ ' + totalArrecadado.toFixed(2).replace('.', ',');
+        }
+
+        // Calcula tempo e valor
+        function calcularCobranca(entrada, saida) {
+            function paraSegundos(hora) {
+                const [h, m, s] = hora.split(':').map(Number);
+                return h * 3600 + m * 60 + s;
+            }
+
+            let segEntrada = paraSegundos(entrada);
+            let segSaida = paraSegundos(saida);
+
+            // Se passou da meia-noite
+            if (segSaida < segEntrada) segSaida += 24 * 3600;
+
+            const segundos = segSaida - segEntrada;
+            const minutos = Math.ceil(segundos / 60);
+            const horas = Math.ceil(minutos / 60) || 1; // mínimo 1 hora
+
+            const valor = horas * VALOR_HORA;
+
+            return {
+                minutos,
+                horas,
+                valor,
+                tempoTexto: horas === 1 ? '1 hora' : horas + ' horas'
+            };
         }
 
         function gerarCPFInput() {
@@ -643,16 +713,8 @@
             const cpf = document.getElementById('inputCPF').value.trim();
             const veiculo = document.getElementById('inputVeiculo').value;
 
-            if (!nome) {
-                mostrarAlerta('Digite o nome da pessoa.', 'erro');
-                return;
-            }
-            if (!cpf) {
-                mostrarAlerta('Digite ou gere um CPF.', 'erro');
-                return;
-            }
-            if (!veiculo) {
-                mostrarAlerta('Selecione o modelo do veículo.', 'erro');
+            if (!nome || !cpf || !veiculo) {
+                mostrarAlerta('Preencha todos os campos.', 'erro');
                 return;
             }
 
@@ -664,7 +726,7 @@
             clientes.push({ nome, cpf, veiculo });
             limparFormulario();
             atualizarListaClientes();
-            mostrarAlerta(`✅ Cliente ${nome} cadastrado com sucesso!`, 'sucesso');
+            mostrarAlerta(`✅ Cliente ${nome} cadastrado!`, 'sucesso');
         }
 
         function atualizarListaClientes() {
@@ -679,10 +741,8 @@
                     <td>${c.cpf}</td>
                     <td class="veiculo-nome">${c.veiculo}</td>
                     <td>
-                        <button class="btn-estacionar" style="padding:5px 10px; font-size:0.78rem;" 
-                                onclick="estacionarCliente(${i})">Estacionar</button>
-                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem; margin-left:4px;" 
-                                onclick="removerCliente(${i})">Excluir</button>
+                        <button class="btn-estacionar" style="padding:5px 10px; font-size:0.78rem;" onclick="estacionarCliente(${i})">Estacionar</button>
+                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem; margin-left:4px;" onclick="removerCliente(${i})">Excluir</button>
                     </td>
                 </tr>
             `).join('');
@@ -702,9 +762,8 @@
             }
 
             const cliente = clientes[index];
-
             if (veiculos.some(v => v.cpf === cliente.cpf)) {
-                mostrarAlerta('Este cliente já possui um veículo estacionado.', 'erro');
+                mostrarAlerta('Este cliente já está estacionado.', 'erro');
                 return;
             }
 
@@ -723,10 +782,9 @@
 
             veiculos.push(novo);
             veiculos.sort((a, b) => a.vaga - b.vaga);
-
             atualizarPainel();
             atualizarTabelaEstacionados();
-            mostrarAlerta(`✅ ${novo.nome} estacionou o ${novo.modelo} na Vaga ${novaVaga}`, 'sucesso');
+            mostrarAlerta(`✅ ${novo.nome} estacionou na Vaga ${novaVaga}`, 'sucesso');
         }
 
         function estacionarAleatorio() {
@@ -750,10 +808,9 @@
 
             veiculos.push(novo);
             veiculos.sort((a, b) => a.vaga - b.vaga);
-
             atualizarPainel();
             atualizarTabelaEstacionados();
-            mostrarAlerta(`✅ ${novo.nome} estacionou o ${novo.modelo} na Vaga ${novaVaga}`, 'sucesso');
+            mostrarAlerta(`✅ ${novo.nome} estacionou na Vaga ${novaVaga}`, 'sucesso');
         }
 
         function atualizarTabelaEstacionados() {
@@ -771,42 +828,90 @@
                     <td>${v.cpf}</td>
                     <td>${v.entrada}</td>
                     <td>
-                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem;" 
-                                onclick="liberarVaga(${index})">Liberar</button>
+                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem;" onclick="liberarVaga(${index})">Liberar + Cobrar</button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function atualizarTabelaSaidas() {
-            const tbody = document.getElementById('listaSaidas');
-            if (historicoSaidas.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty">Nenhuma saída registrada</td></tr>';
+        function atualizarTabelaTickets() {
+            const tbody = document.getElementById('listaTickets');
+            if (tickets.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty">Nenhum ticket gerado</td></tr>';
                 return;
             }
-            tbody.innerHTML = historicoSaidas.map(v => `
+            tbody.innerHTML = tickets.map(t => `
                 <tr>
-                    <td>Vaga ${v.vaga}</td>
-                    <td class="nome-pessoa">${v.nome}</td>
-                    <td class="veiculo-nome">${v.modelo}</td>
-                    <td>${v.gr}</td>
-                    <td>${v.entrada}</td>
-                    <td style="color:#00b894; font-weight:bold;">${v.saida}</td>
+                    <td>Vaga ${t.vaga}</td>
+                    <td class="nome-pessoa">${t.nome}</td>
+                    <td class="veiculo-nome">${t.modelo}</td>
+                    <td>${t.entrada}</td>
+                    <td>${t.saida}</td>
+                    <td>${t.tempoTexto}</td>
+                    <td class="valor">R$ ${t.valor.toFixed(2).replace('.', ',')}</td>
                 </tr>
             `).join('');
         }
 
+        // ===== LIBERAR + GERAR TICKET =====
         function liberarVaga(index) {
-            const veiculo = veiculos.splice(index, 1)[0];
+            const veiculo = veiculos[index];
             const saida = pegarHora();
+            const cobranca = calcularCobranca(veiculo.entrada, saida);
 
-            historicoSaidas.unshift({ ...veiculo, saida });
-            if (historicoSaidas.length > 20) historicoSaidas.pop();
+            // Mostra o ticket
+            mostrarTicket(veiculo, saida, cobranca);
+        }
+
+        function mostrarTicket(veiculo, saida, cobranca) {
+            const ticketHTML = `
+                <h2>🎫 TICKET DE ESTACIONAMENTO</h2>
+                <div class="linha"></div>
+                <p><strong>Vaga:</strong> ${veiculo.vaga}</p>
+                <p><strong>Cliente:</strong> ${veiculo.nome}</p>
+                <p><strong>Veículo:</strong> ${veiculo.modelo}</p>
+                <p><strong>CPF:</strong> ${veiculo.cpf}</p>
+                <p><strong>GR:</strong> ${veiculo.gr}</p>
+                <div class="linha"></div>
+                <p><strong>Entrada:</strong> ${veiculo.entrada}</p>
+                <p><strong>Saída:</strong> ${saida}</p>
+                <p><strong>Tempo:</strong> ${cobranca.tempoTexto}</p>
+                <div class="linha"></div>
+                <p class="total">TOTAL: R$ ${cobranca.valor.toFixed(2).replace('.', ',')}</p>
+                <div class="ticket-botoes">
+                    <button class="btn-fechar-ticket" onclick="fecharTicket()">Fechar</button>
+                    <button class="btn-pagar" onclick="confirmarPagamento(${veiculos.findIndex(v => v.gr === veiculo.gr)}, '${saida}', ${cobranca.valor}, '${cobranca.tempoTexto}')">Confirmar Pagamento</button>
+                </div>
+            `;
+
+            document.getElementById('conteudoTicket').innerHTML = ticketHTML;
+            document.getElementById('ticketModal').style.display = 'flex';
+        }
+
+        function fecharTicket() {
+            document.getElementById('ticketModal').style.display = 'none';
+        }
+
+        function confirmarPagamento(index, saida, valor, tempoTexto) {
+            const veiculo = veiculos.splice(index, 1)[0];
+
+            tickets.unshift({
+                ...veiculo,
+                saida,
+                valor,
+                tempoTexto
+            });
+
+            if (tickets.length > 30) tickets.pop();
+
+            totalArrecadado += valor;
 
             atualizarPainel();
             atualizarTabelaEstacionados();
-            atualizarTabelaSaidas();
-            mostrarAlerta(`🚪 ${veiculo.nome} saiu com o ${veiculo.modelo} às ${saida}`, 'sucesso');
+            atualizarTabelaTickets();
+            fecharTicket();
+
+            mostrarAlerta(`💰 Pagamento de R$ ${valor.toFixed(2).replace('.', ',')} confirmado!`, 'sucesso');
         }
 
         function liberarUltimo() {
@@ -818,14 +923,15 @@
         }
 
         function limparTudo() {
-            if (confirm('Tem certeza que deseja limpar tudo (clientes, veículos e histórico)?')) {
+            if (confirm('Tem certeza que deseja limpar tudo?')) {
                 clientes = [];
                 veiculos = [];
-                historicoSaidas = [];
+                tickets = [];
+                totalArrecadado = 0;
                 atualizarPainel();
                 atualizarListaClientes();
                 atualizarTabelaEstacionados();
-                atualizarTabelaSaidas();
+                atualizarTabelaTickets();
                 mostrarAlerta('Tudo foi limpo.', 'sucesso');
             }
         }
