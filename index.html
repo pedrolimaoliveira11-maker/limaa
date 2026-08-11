@@ -173,7 +173,7 @@
         }
 
         .alerta.sucesso {
-            background: rgba(0, 184, 148, hid: 0.2);
+            background: rgba(0, 184, 148, 0.2);
             border: 1px solid #00b894;
             color: #00b894;
         }
@@ -204,14 +204,14 @@
 <body>
     <div class="container">
         <h1>🅿️ Estacionamento Virtual</h1>
-        <p class="subtitle">Simulador com nome dos veículos • Gera GR e CPF • Controla vagas</p>
+        <p class="subtitle">Simulador com nome dos veículos • Gera GR e CPF • 30 vagas</p>
 
         <div id="alerta" class="alerta"></div>
 
         <div class="info-box">
             <div class="info-item">
                 <div class="label">Total de Vagas</div>
-                <div class="value" id="totalVagas">20</div>
+                <div class="value" id="totalVagas">30</div>
             </div>
             <div class="info-item">
                 <div class="label">Vagas Ocupadas</div>
@@ -219,7 +219,7 @@
             </div>
             <div class="info-item">
                 <div class="label">Vagas Sobrando</div>
-                <div class="value" id="sobrando">20</div>
+                <div class="value" id="sobrando">30</div>
             </div>
         </div>
 
@@ -253,7 +253,7 @@
     </div>
 
     <script>
-        const TOTAL_VAGAS = 20;
+        const TOTAL_VAGAS = 30; // Agora são 30 vagas (1 a 30)
         let veiculos = [];
 
         // Lista de veículos populares no Brasil
@@ -365,7 +365,7 @@
                 return;
             }
 
-            // Encontra a próxima vaga livre
+            // Encontra a próxima vaga livre (de 1 a 30)
             const vagasUsadas = veiculos.map(v => v.vaga);
             let novaVaga = 1;
             while (vagasUsadas.includes(novaVaga)) {
