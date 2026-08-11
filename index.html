@@ -281,23 +281,7 @@
 
         <div id="alerta" class="alerta"></div>
 
-        <!-- Painel de Vagas -->
-        <div class="info-box">
-            <div class="info-item">
-                <div class="label">Total de Vagas</div>
-                <div class="value" id="totalVagas">30</div>
-            </div>
-            <div class="info-item">
-                <div class="label">Vagas Ocupadas</div>
-                <div class="value" id="ocupadas">0</div>
-            </div>
-            <div class="info-item">
-                <div class="label">Vagas Sobrando</div>
-                <div class="value" id="sobrando">30</div>
-            </div>
-        </div>
-
-        <!-- ===== TELA DE CADASTRO ===== -->
+        <!-- ===== 1º CADASTRO DE CLIENTE ===== -->
         <div class="cadastro-box">
             <h2>📝 Cadastro de Cliente</h2>
             <div class="form-row">
@@ -343,6 +327,22 @@
             <div class="botoes-cadastro">
                 <button class="btn-cadastrar" onclick="cadastrarCliente()">✅ Cadastrar Cliente</button>
                 <button class="btn-limpar" onclick="limparFormulario()">Limpar Formulário</button>
+            </div>
+        </div>
+
+        <!-- Painel de Vagas -->
+        <div class="info-box">
+            <div class="info-item">
+                <div class="label">Total de Vagas</div>
+                <div class="value" id="totalVagas">30</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Vagas Ocupadas</div>
+                <div class="value" id="ocupadas">0</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Vagas Sobrando</div>
+                <div class="value" id="sobrando">30</div>
             </div>
         </div>
 
@@ -437,7 +437,6 @@
             "Pedro Nunes", "Rafaela Teixeira", "Samuel Araujo", "Tatiane Ribeiro", "Vitor Gomes"
         ];
 
-        // ===== FUNÇÕES AUXILIARES =====
         function gerarCPF() {
             function calcDigito(base) {
                 let soma = 0;
@@ -475,7 +474,6 @@
             document.getElementById('sobrando').textContent = TOTAL_VAGAS - veiculos.length;
         }
 
-        // ===== CADASTRO =====
         function gerarCPFInput() {
             document.getElementById('inputCPF').value = gerarCPF();
         }
@@ -504,7 +502,6 @@
                 return;
             }
 
-            // Verifica se CPF já existe
             if (clientes.some(c => c.cpf === cpf)) {
                 mostrarAlerta('Este CPF já está cadastrado.', 'erro');
                 return;
@@ -544,7 +541,6 @@
             mostrarAlerta(`Cliente ${nome} removido.`, 'sucesso');
         }
 
-        // ===== ESTACIONAR =====
         function estacionarCliente(index) {
             if (veiculos.length >= TOTAL_VAGAS) {
                 mostrarAlerta('🚫 Estacionamento lotado!', 'erro');
@@ -553,7 +549,6 @@
 
             const cliente = clientes[index];
 
-            // Verifica se esse cliente já está estacionado
             if (veiculos.some(v => v.cpf === cliente.cpf)) {
                 mostrarAlerta('Este cliente já possui um veículo estacionado.', 'erro');
                 return;
@@ -607,7 +602,6 @@
             mostrarAlerta(`✅ ${novo.nome} estacionou o ${novo.modelo} na Vaga ${novaVaga}`, 'sucesso');
         }
 
-        // ===== TABELAS =====
         function atualizarTabelaEstacionados() {
             const tbody = document.getElementById('listaVeiculos');
             if (veiculos.length === 0) {
