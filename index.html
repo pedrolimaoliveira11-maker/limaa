@@ -56,7 +56,7 @@
 
         .info-item {
             text-align: center;
-            min-width: 110px;
+            min-width: 140px;
         }
 
         .info-item .label {
@@ -330,7 +330,7 @@
             </div>
         </div>
 
-        <!-- Painel de Vagas -->
+        <!-- Painel de Vagas (sem mostrar vagas livres) -->
         <div class="info-box">
             <div class="info-item">
                 <div class="label">Total de Vagas</div>
@@ -339,10 +339,6 @@
             <div class="info-item">
                 <div class="label">Vagas Ocupadas</div>
                 <div class="value" id="ocupadas">0</div>
-            </div>
-            <div class="info-item">
-                <div class="label">Vagas Sobrando</div>
-                <div class="value" id="sobrando">30</div>
             </div>
         </div>
 
@@ -471,7 +467,6 @@
 
         function atualizarPainel() {
             document.getElementById('ocupadas').textContent = veiculos.length;
-            document.getElementById('sobrando').textContent = TOTAL_VAGAS - veiculos.length;
         }
 
         function gerarCPFInput() {
