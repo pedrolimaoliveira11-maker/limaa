@@ -65,11 +65,6 @@
             font-size: 1rem;
         }
 
-        .login-group input:focus {
-            outline: none;
-            border-color: #00d9ff;
-        }
-
         .btn-login {
             width: 100%;
             padding: 13px;
@@ -309,7 +304,7 @@
             color: #ff7675;
         }
 
-        /* TICKET MODAL */
+        /* TICKET */
         #ticketModal {
             display: none;
             position: fixed;
@@ -358,21 +353,29 @@
 
         .ticket-botoes {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: 18px;
+            flex-wrap: wrap;
         }
 
         .ticket-botoes button {
             flex: 1;
-            padding: 10px;
+            min-width: 90px;
+            padding: 10px 8px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .btn-fechar-ticket {
             background: #636e72;
+            color: white;
+        }
+
+        .btn-imprimir {
+            background: #0984e3;
             color: white;
         }
 
@@ -386,6 +389,25 @@
             margin-top: 20px;
             color: #666;
             font-size: 0.8rem;
+        }
+
+        /* Estilo para impressão */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #ticketModal, #ticketModal * {
+                visibility: visible;
+            }
+            #ticketModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: white;
+            }
+            .ticket-botoes {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -419,7 +441,7 @@
         <div class="topo-sistema">
             <div>
                 <h1 style="margin:0; font-size:1.7rem;">🅿️ Estacionamento Virtual</h1>
-                <p style="color:#aaa; font-size:0.85rem; margin-top:4px;">Cadastro • Ticket de Entrada • Cobrança</p>
+                <p style="color:#aaa; font-size:0.85rem; margin-top:4px;">Cadastro • Ticket • Cobrança</p>
             </div>
             <button class="btn-sair" onclick="sair()">🚪 Sair</button>
         </div>
@@ -660,6 +682,11 @@
             };
         }
 
+        // ===== IMPRIMIR TICKET =====
+        function imprimirTicket() {
+            window.print();
+        }
+
         // ===== TICKET DE ENTRADA =====
         function mostrarTicketEntrada(veiculo) {
             const html = `
@@ -677,14 +704,15 @@
                     Apresente este ticket na saída<br>para pagamento
                 </p>
                 <div class="ticket-botoes">
-                    <button class="btn-fechar-ticket" onclick="fecharTicket()" style="flex:1">Fechar Ticket</button>
+                    <button class="btn-imprimir" onclick="imprimirTicket()">🖨 Imprimir</button>
+                    <button class="btn-fechar-ticket" onclick="fecharTicket()">Fechar</button>
                 </div>
             `;
             document.getElementById('conteudoTicket').innerHTML = html;
             document.getElementById('ticketModal').style.display = 'flex';
         }
 
-        // ===== TICKET DE SAÍDA (COBRANÇA) =====
+        // ===== TICKET DE SAÍDA =====
         function mostrarTicketSaida(veiculo, saida, cobranca) {
             const html = `
                 <h2>🎫 TICKET DE SAÍDA</h2>
@@ -701,8 +729,9 @@
                 <div class="linha"></div>
                 <p class="total">TOTAL: R$ ${cobranca.valor.toFixed(2).replace('.', ',')}</p>
                 <div class="ticket-botoes">
+                    <button class="btn-imprimir" onclick="imprimirTicket()">🖨 Imprimir</button>
+                    <button class="btn-pagar" onclick="confirmarPagamento('${veiculo.gr}', '${saida}', ${cobranca.valor}, '${cobranca.tempoTexto}')">Pagar</button>
                     <button class="btn-fechar-ticket" onclick="fecharTicket()">Fechar</button>
-                    <button class="btn-pagar" onclick="confirmarPagamento('${veiculo.gr}', '${saida}', ${cobranca.valor}, '${cobranca.tempoTexto}')">Confirmar Pagamento</button>
                 </div>
             `;
             document.getElementById('conteudoTicket').innerHTML = html;
@@ -768,7 +797,6 @@
             mostrarAlerta('Cliente removido.', 'sucesso');
         }
 
-        // ===== ESTACIONAR + GERAR TICKET DE ENTRADA =====
         function estacionarCliente(index) {
             if (veiculos.length >= TOTAL_VAGAS) {
                 mostrarAlerta('🚫 Estacionamento lotado!', 'erro');
@@ -798,8 +826,6 @@
             veiculos.sort((a, b) => a.vaga - b.vaga);
             atualizarPainel();
             atualizarTabelaEstacionados();
-
-            // Gera o Ticket de Entrada automaticamente
             mostrarTicketEntrada(novo);
             mostrarAlerta(`✅ Ticket de entrada gerado - Vaga ${novaVaga}`, 'sucesso');
         }
@@ -827,8 +853,6 @@
             veiculos.sort((a, b) => a.vaga - b.vaga);
             atualizarPainel();
             atualizarTabelaEstacionados();
-
-            // Gera o Ticket de Entrada automaticamente
             mostrarTicketEntrada(novo);
             mostrarAlerta(`✅ Ticket de entrada gerado - Vaga ${novaVaga}`, 'sucesso');
         }
