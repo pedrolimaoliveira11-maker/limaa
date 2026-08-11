@@ -19,7 +19,87 @@
             padding: 20px;
         }
 
-        .container {
+        /* ===== TELA DE LOGIN ===== */
+        #telaLogin {
+            max-width: 400px;
+            margin: 80px auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        #telaLogin h1 {
+            text-align: center;
+            color: #00d9ff;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+
+        #telaLogin .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .login-group {
+            margin-bottom: 18px;
+        }
+
+        .login-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+
+        .login-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .login-group input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .erro-login {
+            color: #ff7675;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* ===== SISTEMA PRINCIPAL ===== */
+        #sistemaPrincipal {
+            display: none;
             max-width: 1150px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.05);
@@ -40,6 +120,30 @@
             color: #aaa;
             margin-bottom: 25px;
             font-size: 0.95rem;
+        }
+
+        .topo-sistema {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-sair {
+            background: #d63031;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn-sair:hover {
+            background: #ff7675;
         }
 
         .info-box {
@@ -71,7 +175,6 @@
             color: #00d9ff;
         }
 
-        /* ===== CADASTRO ===== */
         .cadastro-box {
             background: rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(0, 217, 255, 0.25);
@@ -144,7 +247,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== BOTÕES GERAIS ===== */
         .botoes {
             display: flex;
             gap: 10px;
@@ -275,13 +377,43 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🅿️ Estacionamento Virtual</h1>
-        <p class="subtitle">Cadastro de Cliente • Nome • Entrada/Saída • 30 vagas</p>
+
+    <!-- ==================== TELA DE LOGIN ==================== -->
+    <div id="telaLogin">
+        <h1>🅿️ Estacionamento</h1>
+        <p class="subtitle">Faça login para continuar</p>
+
+        <div class="login-group">
+            <label>Usuário</label>
+            <input type="text" id="usuario" placeholder="Digite o usuário" value="admin">
+        </div>
+
+        <div class="login-group">
+            <label>Senha</label>
+            <input type="password" id="senha" placeholder="Digite a senha">
+        </div>
+
+        <button class="btn-login" onclick="fazerLogin()">Entrar</button>
+        <p class="erro-login" id="erroLogin">Usuário ou senha incorretos!</p>
+
+        <p style="text-align:center; margin-top:20px; font-size:0.8rem; color:#666;">
+            Usuário: <b>admin</b> &nbsp;|&nbsp; Senha: <b>1234</b>
+        </p>
+    </div>
+
+    <!-- ==================== SISTEMA PRINCIPAL ==================== -->
+    <div id="sistemaPrincipal">
+        <div class="topo-sistema">
+            <div>
+                <h1 style="margin:0; font-size:1.7rem;">🅿️ Estacionamento Virtual</h1>
+                <p style="color:#aaa; font-size:0.85rem; margin-top:4px;">Cadastro • Entrada/Saída • 30 vagas</p>
+            </div>
+            <button class="btn-sair" onclick="sair()">🚪 Sair</button>
+        </div>
 
         <div id="alerta" class="alerta"></div>
 
-        <!-- ===== 1º CADASTRO DE CLIENTE ===== -->
+        <!-- CADASTRO DE CLIENTE -->
         <div class="cadastro-box">
             <h2>📝 Cadastro de Cliente</h2>
             <div class="form-row">
@@ -330,7 +462,7 @@
             </div>
         </div>
 
-        <!-- Painel de Vagas (sem mostrar vagas livres) -->
+        <!-- Painel de Vagas -->
         <div class="info-box">
             <div class="info-item">
                 <div class="label">Total de Vagas</div>
@@ -414,6 +546,33 @@
     </div>
 
     <script>
+        // ===== LOGIN =====
+        function fazerLogin() {
+            const usuario = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value;
+
+            if (usuario === 'admin' && senha === '1234') {
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('sistemaPrincipal').style.display = 'block';
+                document.getElementById('erroLogin').style.display = 'none';
+            } else {
+                document.getElementById('erroLogin').style.display = 'block';
+            }
+        }
+
+        function sair() {
+            document.getElementById('sistemaPrincipal').style.display = 'none';
+            document.getElementById('telaLogin').style.display = 'block';
+            document.getElementById('senha').value = '';
+            document.getElementById('erroLogin').style.display = 'none';
+        }
+
+        // Permitir Enter no campo senha
+        document.getElementById('senha').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') fazerLogin();
+        });
+
+        // ===== SISTEMA =====
         const TOTAL_VAGAS = 30;
         let clientes = [];
         let veiculos = [];
