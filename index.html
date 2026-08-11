@@ -1,153 +1,379 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Jogo de Guerra 2D</title>
-  <style>
-    body { margin: 0; background: #eee; }
-    canvas { display: block; margin: auto; background: #fff; border: 2px solid #000; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estacionamento Virtual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            color: #eee;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #00d9ff;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item .label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d9ff;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-estacionar {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: #fff;
+        }
+
+        .btn-estacionar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-liberar {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            color: #fff;
+        }
+
+        .btn-liberar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4);
+        }
+
+        .btn-limpar {
+            background: #636e72;
+            color: #fff;
+        }
+
+        .btn-limpar:hover {
+            background: #2d3436;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(0, 217, 255, 0.2);
+            padding: 14px 10px;
+            text-align: left;
+            color: #00d9ff;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .vaga-livre {
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .vaga-ocupada {
+            color: #ff7675;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .alerta {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .alerta.sucesso {
+            background: rgba(0, 184, 148, 0.2);
+            border: 1px solid #00b894;
+            color: #00b894;
+        }
+
+        .alerta.erro {
+            background: rgba(214, 48, 49, 0.2);
+            border: 1px solid #d63031;
+            color: #ff7675;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+    <div class="container">
+        <h1>🅿️ Estacionamento Virtual</h1>
+        <p class="subtitle">Simulador de estacionamento • Gera GR e CPF • Controla vagas</p>
 
-    let gameOver = false;
-    let winner = "";
+        <div id="alerta" class="alerta"></div>
 
-    class Player {
-      constructor(x, y, color, controls) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.width = 40;
-        this.height = 40;
-        this.speed = 5;
-        this.controls = controls;
-        this.bullets = [];
-        this.life = 5;
-        this.score = 0;
-      }
+        <div class="info-box">
+            <div class="info-item">
+                <div class="label">Total de Vagas</div>
+                <div class="value" id="totalVagas">20</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Vagas Ocupadas</div>
+                <div class="value" id="ocupadas">0</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Vagas Sobrando</div>
+                <div class="value" id="sobrando">20</div>
+            </div>
+        </div>
 
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        <div class="botoes">
+            <button class="btn-estacionar" onclick="estacionarVeiculo()">🚗 Estacionar Veículo</button>
+            <button class="btn-liberar" onclick="liberarUltimo()">🔓 Liberar Último</button>
+            <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar Tudo</button>
+        </div>
 
-        // Barra de vida
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.x, this.y - 15, this.width, 5);
-        ctx.fillStyle = "green";
-        ctx.fillRect(this.x, this.y - 15, (this.width * this.life) / 5, 5);
-      }
+        <table>
+            <thead>
+                <tr>
+                    <th>Vaga</th>
+                    <th>GR (Registro)</th>
+                    <th>CPF</th>
+                    <th>Horário</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="listaVeiculos">
+                <tr>
+                    <td colspan="5" class="empty">Nenhum veículo estacionado</td>
+                </tr>
+            </tbody>
+        </table>
 
-      move(keys) {
-        if (keys[this.controls.up]) this.y -= this.speed;
-        if (keys[this.controls.down]) this.y += this.speed;
-        if (keys[this.controls.left]) this.x -= this.speed;
-        if (keys[this.controls.right]) this.x += this.speed;
-      }
+        <footer>
+            Simulação apenas • CPFs e GRs gerados são fictícios
+        </footer>
+    </div>
 
-      shoot() {
-        this.bullets.push(new Bullet(this.x + this.width/2, this.y, this.color));
-      }
-    }
+    <script>
+        const TOTAL_VAGAS = 20;
+        let veiculos = []; // { vaga, gr, cpf, horario }
 
-    class Bullet {
-      constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.size = 10;
-        this.speed = -7;
-      }
+        // Gera um CPF válido (apenas para simulação)
+        function gerarCPF() {
+            function calcDigito(base) {
+                let soma = 0;
+                for (let i = 0; i < base.length; i++) {
+                    soma += parseInt(base[i]) * (base.length + 1 - i);
+                }
+                let resto = (soma * 10) % 11;
+                return resto === 10 ? 0 : resto;
+            }
 
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
-      }
+            let n = '';
+            for (let i = 0; i < 9; i++) {
+                n += Math.floor(Math.random() * 10);
+            }
 
-      update() {
-        this.y += this.speed;
-      }
-    }
+            const d1 = calcDigito(n);
+            const d2 = calcDigito(n + d1);
 
-    const keys = {};
-    const controlsP1 = { up: "KeyW", down: "KeyS", left: "KeyA", right: "KeyD", shoot: "Space" };
-    const controlsP2 = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight", shoot: "Enter" };
-
-    const player1 = new Player(200, 550, "red", controlsP1);
-    const player2 = new Player(600, 550, "blue", controlsP2);
-
-    document.addEventListener("keydown", e => {
-      keys[e.code] = true;
-      if (!gameOver) {
-        if (e.code === player1.controls.shoot) player1.shoot();
-        if (e.code === player2.controls.shoot) player2.shoot();
-      }
-    });
-
-    document.addEventListener("keyup", e => {
-      keys[e.code] = false;
-    });
-
-    function checkCollision(player, bullets, opponent) {
-      for (let b of bullets) {
-        if (b.x < player.x + player.width &&
-            b.x + b.size > player.x &&
-            b.y < player.y + player.height &&
-            b.y + b.size > player.y) {
-          bullets.splice(bullets.indexOf(b), 1);
-          player.life -= 1;
-          opponent.score += 1;
-          if (player.life <= 0) {
-            gameOver = true;
-            winner = opponent.color;
-          }
+            const cpf = n + d1 + d2;
+            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
-      }
-    }
 
-    function drawScore() {
-      ctx.fillStyle = "black";
-      ctx.font = "20px Arial";
-      ctx.fillText("Jogador 1 (Vermelho): " + player1.score, 20, 30);
-      ctx.fillText("Jogador 2 (Azul): " + player2.score, 550, 30);
-    }
+        // Gera um código GR (Guia/Registro)
+        function gerarGR() {
+            const num = Math.floor(Math.random() * 90000000) + 10000000;
+            return 'GR-' + num;
+        }
 
-    function drawGameOver() {
-      ctx.fillStyle = "black";
-      ctx.font = "40px Arial";
-      ctx.fillText("Fim de jogo!", 300, 250);
-      ctx.fillText("Vencedor: " + winner.toUpperCase(), 250, 320);
-    }
+        // Atualiza os contadores na tela
+        function atualizarPainel() {
+            document.getElementById('ocupadas').textContent = veiculos.length;
+            document.getElementById('sobrando').textContent = TOTAL_VAGAS - veiculos.length;
+        }
 
-    function gameLoop() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Mostra alerta temporário
+        function mostrarAlerta(msg, tipo) {
+            const el = document.getElementById('alerta');
+            el.textContent = msg;
+            el.className = 'alerta ' + tipo;
+            el.style.display = 'block';
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 3000);
+        }
 
-      if (!gameOver) {
-        player1.move(keys);
-        player2.move(keys);
+        // Atualiza a tabela
+        function atualizarTabela() {
+            const tbody = document.getElementById('listaVeiculos');
 
-        player1.draw();
-        player2.draw();
+            if (veiculos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty">Nenhum veículo estacionado</td></tr>';
+                return;
+            }
 
-        player1.bullets.forEach(b => { b.update(); b.draw(); });
-        player2.bullets.forEach(b => { b.update(); b.draw(); });
+            tbody.innerHTML = veiculos.map((v, index) => `
+                <tr>
+                    <td class="vaga-ocupada">Vaga ${v.vaga}</td>
+                    <td>${v.gr}</td>
+                    <td>${v.cpf}</td>
+                    <td>${v.horario}</td>
+                    <td>
+                        <button class="btn-liberar" style="padding:6px 12px; font-size:0.85rem;" 
+                                onclick="liberarVaga(${index})">
+                            Liberar
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
 
-        checkCollision(player1, player2.bullets, player2);
-        checkCollision(player2, player1.bullets, player1);
+        // Estaciona um novo veículo
+        function estacionarVeiculo() {
+            if (veiculos.length >= TOTAL_VAGAS) {
+                mostrarAlerta('🚫 Estacionamento lotado! Não há vagas sobrando.', 'erro');
+                return;
+            }
 
-        drawScore();
-      } else {
-        drawGameOver();
-      }
+            // Encontra a próxima vaga livre (1 a 20)
+            const vagasUsadas = veiculos.map(v => v.vaga);
+            let novaVaga = 1;
+            while (vagasUsadas.includes(novaVaga)) {
+                novaVaga++;
+            }
 
-      requestAnimationFrame(gameLoop);
-    }
+            const agora = new Date();
+            const horario = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    gameLoop();
-  </script>
+            const novo = {
+                vaga: novaVaga,
+                gr: gerarGR(),
+                cpf: gerarCPF(),
+                horario: horario
+            };
+
+            veiculos.push(novo);
+            veiculos.sort((a, b) => a.vaga - b.vaga);
+
+            atualizarPainel();
+            atualizarTabela();
+            mostrarAlerta(`✅ Veículo estacionado na Vaga ${novaVaga} | GR: ${novo.gr}`, 'sucesso');
+        }
+
+        // Libera uma vaga específica
+        function liberarVaga(index) {
+            const liberado = veiculos.splice(index, 1)[0];
+            atualizarPainel();
+            atualizarTabela();
+            mostrarAlerta(`🔓 Vaga ${liberado.vaga} liberada (GR: ${liberado.gr})`, 'sucesso');
+        }
+
+        // Libera o último veículo
+        function liberarUltimo() {
+            if (veiculos.length === 0) {
+                mostrarAlerta('Não há veículos para liberar.', 'erro');
+                return;
+            }
+            liberarVaga(veiculos.length - 1);
+        }
+
+        // Limpa tudo
+        function limparTudo() {
+            if (veiculos.length === 0) return;
+            if (confirm('Tem certeza que deseja liberar todas as vagas?')) {
+                veiculos = [];
+                atualizarPainel();
+                atualizarTabela();
+                mostrarAlerta('Todas as vagas foram liberadas.', 'sucesso');
+            }
+        }
+
+        // Inicializa
+        atualizarPainel();
+    </script>
 </body>
 </html>
