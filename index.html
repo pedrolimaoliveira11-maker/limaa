@@ -20,18 +20,17 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1150px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #00d9ff;
             font-size: 2rem;
         }
@@ -39,7 +38,7 @@
         .subtitle {
             text-align: center;
             color: #aaa;
-            margin-bottom: 28px;
+            margin-bottom: 25px;
             font-size: 0.95rem;
         }
 
@@ -49,45 +48,119 @@
             background: rgba(0, 217, 255, 0.1);
             border: 1px solid rgba(0, 217, 255, 0.3);
             border-radius: 12px;
-            padding: 20px;
+            padding: 16px;
             margin-bottom: 25px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
         }
 
         .info-item {
             text-align: center;
-            min-width: 120px;
+            min-width: 110px;
         }
 
         .info-item .label {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: #aaa;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .info-item .value {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #00d9ff;
         }
 
+        /* ===== CADASTRO ===== */
+        .cadastro-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .cadastro-box h2 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .btn-gerar {
+            background: #0984e3;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .btn-gerar:hover {
+            background: #74b9ff;
+        }
+
+        .botoes-cadastro {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== BOTÕES GERAIS ===== */
         .botoes {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         button {
-            padding: 13px 24px;
-            font-size: 0.95rem;
+            padding: 11px 20px;
+            font-size: 0.9rem;
             font-weight: 600;
             border: none;
-            border-radius: 10px;
+            border-radius: 9px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         .btn-estacionar {
@@ -97,7 +170,7 @@
 
         .btn-estacionar:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
         }
 
         .btn-liberar {
@@ -107,7 +180,6 @@
 
         .btn-liberar:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4);
         }
 
         .btn-limpar {
@@ -115,59 +187,65 @@
             color: #fff;
         }
 
-        .btn-limpar:hover {
-            background: #2d3436;
+        .btn-cadastrar {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: #fff;
+        }
+
+        .btn-cadastrar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        h2 {
+            color: #00d9ff;
+            margin: 25px 0 10px 0;
+            font-size: 1.15rem;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
+            margin-bottom: 8px;
         }
 
         th {
             background: rgba(0, 217, 255, 0.2);
-            padding: 14px 10px;
+            padding: 11px 7px;
             text-align: left;
             color: #00d9ff;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
         }
 
         td {
-            padding: 12px 10px;
+            padding: 9px 7px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
+            font-size: 0.82rem;
         }
 
         tr:hover {
             background: rgba(255, 255, 255, 0.03);
         }
 
-        .vaga-ocupada {
-            color: #ff7675;
-            font-weight: bold;
-        }
-
-        .veiculo-nome {
-            color: #74b9ff;
-            font-weight: 500;
-        }
+        .vaga-ocupada { color: #ff7675; font-weight: bold; }
+        .veiculo-nome { color: #74b9ff; font-weight: 500; }
+        .nome-pessoa { color: #ffeaa7; font-weight: 500; }
 
         .empty {
             text-align: center;
-            padding: 40px;
+            padding: 25px;
             color: #888;
         }
 
         .alerta {
             text-align: center;
-            padding: 12px;
+            padding: 11px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: none;
             font-weight: 500;
         }
@@ -186,28 +264,24 @@
 
         footer {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             color: #666;
             font-size: 0.8rem;
         }
 
-        @media (max-width: 700px) {
-            table {
-                font-size: 0.8rem;
-            }
-            th, td {
-                padding: 10px 6px;
-            }
+        @media (max-width: 800px) {
+            th, td { padding: 7px 4px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🅿️ Estacionamento Virtual</h1>
-        <p class="subtitle">Simulador com nome dos veículos • Gera GR e CPF • 30 vagas</p>
+        <p class="subtitle">Cadastro de Cliente • Nome • Entrada/Saída • 30 vagas</p>
 
         <div id="alerta" class="alerta"></div>
 
+        <!-- Painel de Vagas -->
         <div class="info-box">
             <div class="info-item">
                 <div class="label">Total de Vagas</div>
@@ -223,69 +297,147 @@
             </div>
         </div>
 
+        <!-- ===== TELA DE CADASTRO ===== -->
+        <div class="cadastro-box">
+            <h2>📝 Cadastro de Cliente</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nome da Pessoa</label>
+                    <input type="text" id="inputNome" placeholder="Ex: João Silva" maxlength="40">
+                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <div style="display:flex; gap:6px;">
+                        <input type="text" id="inputCPF" placeholder="000.000.000-00" maxlength="14">
+                        <button class="btn-gerar" onclick="gerarCPFInput()">Gerar</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Modelo do Veículo</label>
+                    <select id="inputVeiculo">
+                        <option value="">Selecione o veículo</option>
+                        <option>Volkswagen Gol</option>
+                        <option>Chevrolet Onix</option>
+                        <option>Hyundai HB20</option>
+                        <option>Fiat Argo</option>
+                        <option>Volkswagen Polo</option>
+                        <option>Chevrolet Tracker</option>
+                        <option>Hyundai Creta</option>
+                        <option>Jeep Compass</option>
+                        <option>Toyota Corolla</option>
+                        <option>Honda Civic</option>
+                        <option>Fiat Strada</option>
+                        <option>Volkswagen T-Cross</option>
+                        <option>Renault Kwid</option>
+                        <option>Fiat Mobi</option>
+                        <option>Toyota Hilux</option>
+                        <option>Ford Ranger</option>
+                        <option>Nissan Kicks</option>
+                        <option>Honda HR-V</option>
+                        <option>Jeep Renegade</option>
+                        <option>Fiat Toro</option>
+                        <option>Chevrolet S10</option>
+                    </select>
+                </div>
+            </div>
+            <div class="botoes-cadastro">
+                <button class="btn-cadastrar" onclick="cadastrarCliente()">✅ Cadastrar Cliente</button>
+                <button class="btn-limpar" onclick="limparFormulario()">Limpar Formulário</button>
+            </div>
+        </div>
+
+        <!-- Botões rápidos -->
         <div class="botoes">
-            <button class="btn-estacionar" onclick="estacionarVeiculo()">🚗 Estacionar Veículo</button>
+            <button class="btn-estacionar" onclick="estacionarAleatorio()">🎲 Estacionar Aleatório</button>
             <button class="btn-liberar" onclick="liberarUltimo()">🔓 Liberar Último</button>
             <button class="btn-limpar" onclick="limparTudo()">🗑️ Limpar Tudo</button>
         </div>
 
+        <!-- Clientes Cadastrados -->
+        <h2>👥 Clientes Cadastrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Veículo</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="listaClientes">
+                <tr>
+                    <td colspan="4" class="empty">Nenhum cliente cadastrado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Veículos Estacionados -->
+        <h2>🚗 Veículos Estacionados</h2>
         <table>
             <thead>
                 <tr>
                     <th>Vaga</th>
+                    <th>Nome</th>
                     <th>Veículo</th>
-                    <th>GR (Registro)</th>
+                    <th>GR</th>
                     <th>CPF</th>
-                    <th>Horário</th>
+                    <th>Entrada</th>
                     <th>Ação</th>
                 </tr>
             </thead>
             <tbody id="listaVeiculos">
                 <tr>
-                    <td colspan="6" class="empty">Nenhum veículo estacionado</td>
+                    <td colspan="7" class="empty">Nenhum veículo estacionado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Histórico de Saídas -->
+        <h2>🚪 Histórico de Saídas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vaga</th>
+                    <th>Nome</th>
+                    <th>Veículo</th>
+                    <th>GR</th>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                </tr>
+            </thead>
+            <tbody id="listaSaidas">
+                <tr>
+                    <td colspan="6" class="empty">Nenhuma saída registrada</td>
                 </tr>
             </tbody>
         </table>
 
         <footer>
-            Simulação apenas • CPFs, GRs e veículos são fictícios
+            Simulação apenas • Dados fictícios
         </footer>
     </div>
 
     <script>
-        const TOTAL_VAGAS = 30; // Agora são 30 vagas (1 a 30)
+        const TOTAL_VAGAS = 30;
+        let clientes = [];
         let veiculos = [];
+        let historicoSaidas = [];
 
-        // Lista de veículos populares no Brasil
         const modelos = [
-            "Volkswagen Gol",
-            "Chevrolet Onix",
-            "Hyundai HB20",
-            "Fiat Argo",
-            "Volkswagen Polo",
-            "Chevrolet Tracker",
-            "Hyundai Creta",
-            "Jeep Compass",
-            "Toyota Corolla",
-            "Honda Civic",
-            "Fiat Strada",
-            "Volkswagen T-Cross",
-            "Renault Kwid",
-            "Fiat Mobi",
-            "Chevrolet Spin",
-            "Toyota Hilux",
-            "Ford Ranger",
-            "Nissan Kicks",
-            "Peugeot 208",
-            "Citroën C3",
-            "Volkswagen Virtus",
-            "Honda HR-V",
-            "Jeep Renegade",
-            "Fiat Toro",
-            "Chevrolet S10"
+            "Volkswagen Gol", "Chevrolet Onix", "Hyundai HB20", "Fiat Argo", "Volkswagen Polo",
+            "Chevrolet Tracker", "Hyundai Creta", "Jeep Compass", "Toyota Corolla", "Honda Civic",
+            "Fiat Strada", "Volkswagen T-Cross", "Renault Kwid", "Fiat Mobi", "Toyota Hilux",
+            "Ford Ranger", "Nissan Kicks", "Honda HR-V", "Jeep Renegade", "Fiat Toro", "Chevrolet S10"
         ];
 
-        // Gera um CPF válido (simulação)
+        const nomesAleatorios = [
+            "Ana Silva", "Bruno Oliveira", "Carla Santos", "Diego Souza", "Eduarda Lima",
+            "Felipe Costa", "Gabriela Alves", "Henrique Pereira", "Isabela Rodrigues", "João Ferreira",
+            "Karen Martins", "Lucas Barbosa", "Mariana Rocha", "Nicolas Cardoso", "Olivia Mendes",
+            "Pedro Nunes", "Rafaela Teixeira", "Samuel Araujo", "Tatiane Ribeiro", "Vitor Gomes"
+        ];
+
+        // ===== FUNÇÕES AUXILIARES =====
         function gerarCPF() {
             function calcDigito(base) {
                 let soma = 0;
@@ -295,33 +447,19 @@
                 let resto = (soma * 10) % 11;
                 return resto === 10 ? 0 : resto;
             }
-
             let n = '';
-            for (let i = 0; i < 9; i++) {
-                n += Math.floor(Math.random() * 10);
-            }
-
+            for (let i = 0; i < 9; i++) n += Math.floor(Math.random() * 10);
             const d1 = calcDigito(n);
             const d2 = calcDigito(n + d1);
-            const cpf = n + d1 + d2;
-            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            return (n + d1 + d2).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
 
-        // Gera código GR
         function gerarGR() {
-            const num = Math.floor(Math.random() * 90000000) + 10000000;
-            return 'GR-' + num;
+            return 'GR-' + (Math.floor(Math.random() * 90000000) + 10000000);
         }
 
-        // Escolhe um veículo aleatório
-        function gerarVeiculo() {
-            const indice = Math.floor(Math.random() * modelos.length);
-            return modelos[indice];
-        }
-
-        function atualizarPainel() {
-            document.getElementById('ocupadas').textContent = veiculos.length;
-            document.getElementById('sobrando').textContent = TOTAL_VAGAS - veiculos.length;
+        function pegarHora() {
+            return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         }
 
         function mostrarAlerta(msg, tipo) {
@@ -329,73 +467,198 @@
             el.textContent = msg;
             el.className = 'alerta ' + tipo;
             el.style.display = 'block';
-            setTimeout(() => {
-                el.style.display = 'none';
-            }, 3000);
+            setTimeout(() => el.style.display = 'none', 3500);
         }
 
-        function atualizarTabela() {
-            const tbody = document.getElementById('listaVeiculos');
+        function atualizarPainel() {
+            document.getElementById('ocupadas').textContent = veiculos.length;
+            document.getElementById('sobrando').textContent = TOTAL_VAGAS - veiculos.length;
+        }
 
-            if (veiculos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty">Nenhum veículo estacionado</td></tr>';
+        // ===== CADASTRO =====
+        function gerarCPFInput() {
+            document.getElementById('inputCPF').value = gerarCPF();
+        }
+
+        function limparFormulario() {
+            document.getElementById('inputNome').value = '';
+            document.getElementById('inputCPF').value = '';
+            document.getElementById('inputVeiculo').value = '';
+        }
+
+        function cadastrarCliente() {
+            const nome = document.getElementById('inputNome').value.trim();
+            const cpf = document.getElementById('inputCPF').value.trim();
+            const veiculo = document.getElementById('inputVeiculo').value;
+
+            if (!nome) {
+                mostrarAlerta('Digite o nome da pessoa.', 'erro');
+                return;
+            }
+            if (!cpf) {
+                mostrarAlerta('Digite ou gere um CPF.', 'erro');
+                return;
+            }
+            if (!veiculo) {
+                mostrarAlerta('Selecione o modelo do veículo.', 'erro');
                 return;
             }
 
-            tbody.innerHTML = veiculos.map((v, index) => `
+            // Verifica se CPF já existe
+            if (clientes.some(c => c.cpf === cpf)) {
+                mostrarAlerta('Este CPF já está cadastrado.', 'erro');
+                return;
+            }
+
+            clientes.push({ nome, cpf, veiculo });
+            limparFormulario();
+            atualizarListaClientes();
+            mostrarAlerta(`✅ Cliente ${nome} cadastrado com sucesso!`, 'sucesso');
+        }
+
+        function atualizarListaClientes() {
+            const tbody = document.getElementById('listaClientes');
+            if (clientes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty">Nenhum cliente cadastrado</td></tr>';
+                return;
+            }
+            tbody.innerHTML = clientes.map((c, i) => `
                 <tr>
-                    <td class="vaga-ocupada">Vaga ${v.vaga}</td>
-                    <td class="veiculo-nome">${v.modelo}</td>
-                    <td>${v.gr}</td>
-                    <td>${v.cpf}</td>
-                    <td>${v.horario}</td>
+                    <td class="nome-pessoa">${c.nome}</td>
+                    <td>${c.cpf}</td>
+                    <td class="veiculo-nome">${c.veiculo}</td>
                     <td>
-                        <button class="btn-liberar" style="padding:6px 12px; font-size:0.82rem;" 
-                                onclick="liberarVaga(${index})">
-                            Liberar
-                        </button>
+                        <button class="btn-estacionar" style="padding:5px 10px; font-size:0.78rem;" 
+                                onclick="estacionarCliente(${i})">Estacionar</button>
+                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem; margin-left:4px;" 
+                                onclick="removerCliente(${i})">Excluir</button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function estacionarVeiculo() {
+        function removerCliente(index) {
+            const nome = clientes[index].nome;
+            clientes.splice(index, 1);
+            atualizarListaClientes();
+            mostrarAlerta(`Cliente ${nome} removido.`, 'sucesso');
+        }
+
+        // ===== ESTACIONAR =====
+        function estacionarCliente(index) {
             if (veiculos.length >= TOTAL_VAGAS) {
-                mostrarAlerta('🚫 Estacionamento lotado! Não há vagas sobrando.', 'erro');
+                mostrarAlerta('🚫 Estacionamento lotado!', 'erro');
                 return;
             }
 
-            // Encontra a próxima vaga livre (de 1 a 30)
-            const vagasUsadas = veiculos.map(v => v.vaga);
-            let novaVaga = 1;
-            while (vagasUsadas.includes(novaVaga)) {
-                novaVaga++;
+            const cliente = clientes[index];
+
+            // Verifica se esse cliente já está estacionado
+            if (veiculos.some(v => v.cpf === cliente.cpf)) {
+                mostrarAlerta('Este cliente já possui um veículo estacionado.', 'erro');
+                return;
             }
 
-            const agora = new Date();
-            const horario = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const vagasUsadas = veiculos.map(v => v.vaga);
+            let novaVaga = 1;
+            while (vagasUsadas.includes(novaVaga)) novaVaga++;
 
             const novo = {
                 vaga: novaVaga,
-                modelo: gerarVeiculo(),
+                nome: cliente.nome,
+                modelo: cliente.veiculo,
                 gr: gerarGR(),
-                cpf: gerarCPF(),
-                horario: horario
+                cpf: cliente.cpf,
+                entrada: pegarHora()
             };
 
             veiculos.push(novo);
             veiculos.sort((a, b) => a.vaga - b.vaga);
 
             atualizarPainel();
-            atualizarTabela();
-            mostrarAlerta(`✅ ${novo.modelo} estacionado na Vaga ${novaVaga}`, 'sucesso');
+            atualizarTabelaEstacionados();
+            mostrarAlerta(`✅ ${novo.nome} estacionou o ${novo.modelo} na Vaga ${novaVaga}`, 'sucesso');
+        }
+
+        function estacionarAleatorio() {
+            if (veiculos.length >= TOTAL_VAGAS) {
+                mostrarAlerta('🚫 Estacionamento lotado!', 'erro');
+                return;
+            }
+
+            const vagasUsadas = veiculos.map(v => v.vaga);
+            let novaVaga = 1;
+            while (vagasUsadas.includes(novaVaga)) novaVaga++;
+
+            const novo = {
+                vaga: novaVaga,
+                nome: nomesAleatorios[Math.floor(Math.random() * nomesAleatorios.length)],
+                modelo: modelos[Math.floor(Math.random() * modelos.length)],
+                gr: gerarGR(),
+                cpf: gerarCPF(),
+                entrada: pegarHora()
+            };
+
+            veiculos.push(novo);
+            veiculos.sort((a, b) => a.vaga - b.vaga);
+
+            atualizarPainel();
+            atualizarTabelaEstacionados();
+            mostrarAlerta(`✅ ${novo.nome} estacionou o ${novo.modelo} na Vaga ${novaVaga}`, 'sucesso');
+        }
+
+        // ===== TABELAS =====
+        function atualizarTabelaEstacionados() {
+            const tbody = document.getElementById('listaVeiculos');
+            if (veiculos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty">Nenhum veículo estacionado</td></tr>';
+                return;
+            }
+            tbody.innerHTML = veiculos.map((v, index) => `
+                <tr>
+                    <td class="vaga-ocupada">Vaga ${v.vaga}</td>
+                    <td class="nome-pessoa">${v.nome}</td>
+                    <td class="veiculo-nome">${v.modelo}</td>
+                    <td>${v.gr}</td>
+                    <td>${v.cpf}</td>
+                    <td>${v.entrada}</td>
+                    <td>
+                        <button class="btn-liberar" style="padding:5px 10px; font-size:0.78rem;" 
+                                onclick="liberarVaga(${index})">Liberar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function atualizarTabelaSaidas() {
+            const tbody = document.getElementById('listaSaidas');
+            if (historicoSaidas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty">Nenhuma saída registrada</td></tr>';
+                return;
+            }
+            tbody.innerHTML = historicoSaidas.map(v => `
+                <tr>
+                    <td>Vaga ${v.vaga}</td>
+                    <td class="nome-pessoa">${v.nome}</td>
+                    <td class="veiculo-nome">${v.modelo}</td>
+                    <td>${v.gr}</td>
+                    <td>${v.entrada}</td>
+                    <td style="color:#00b894; font-weight:bold;">${v.saida}</td>
+                </tr>
+            `).join('');
         }
 
         function liberarVaga(index) {
-            const liberado = veiculos.splice(index, 1)[0];
+            const veiculo = veiculos.splice(index, 1)[0];
+            const saida = pegarHora();
+
+            historicoSaidas.unshift({ ...veiculo, saida });
+            if (historicoSaidas.length > 20) historicoSaidas.pop();
+
             atualizarPainel();
-            atualizarTabela();
-            mostrarAlerta(`🔓 ${liberado.modelo} saiu da Vaga ${liberado.vaga}`, 'sucesso');
+            atualizarTabelaEstacionados();
+            atualizarTabelaSaidas();
+            mostrarAlerta(`🚪 ${veiculo.nome} saiu com o ${veiculo.modelo} às ${saida}`, 'sucesso');
         }
 
         function liberarUltimo() {
@@ -407,12 +670,15 @@
         }
 
         function limparTudo() {
-            if (veiculos.length === 0) return;
-            if (confirm('Tem certeza que deseja liberar todas as vagas?')) {
+            if (confirm('Tem certeza que deseja limpar tudo (clientes, veículos e histórico)?')) {
+                clientes = [];
                 veiculos = [];
+                historicoSaidas = [];
                 atualizarPainel();
-                atualizarTabela();
-                mostrarAlerta('Todas as vagas foram liberadas.', 'sucesso');
+                atualizarListaClientes();
+                atualizarTabelaEstacionados();
+                atualizarTabelaSaidas();
+                mostrarAlerta('Tudo foi limpo.', 'sucesso');
             }
         }
 
